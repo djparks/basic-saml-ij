@@ -1,0 +1,30 @@
+# Server configuration
+server:
+  port: 8080
+
+# Spring application name
+spring:
+  application:
+    name: basic-saml
+  # SAML configuration
+  # These are placeholder values that should be replaced with actual configuration
+  # security:
+  #   saml2:
+  #     relyingparty:
+  #       registration:
+  #         idpname:
+  #           identityprovider:
+  #             entity-id: https://idp.example.com/idp
+  #             sso-url: https://idp.example.com/idp/profile/SAML2/Redirect/SSO
+  #             verification:
+  #               credentials:
+  #                 certificate-location: classpath:saml/idp-certificate.crt
+
+# Logging configuration
+logging:
+  level:
+    root: INFO
+    org:
+      springframework:
+        security: DEBUG
+        security.saml2: DEBUG

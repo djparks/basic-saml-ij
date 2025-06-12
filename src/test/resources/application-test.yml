@@ -1,0 +1,21 @@
+# Test configuration
+spring:
+  application:
+    name: basic-saml-test
+  # Disable SAML for tests
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.security.saml2.Saml2RelyingPartyAutoConfiguration
+
+server:
+  port: 0
+
+# Logging configuration for tests
+logging:
+  level:
+    root: WARN
+    com:
+      example:
+        basicsaml: DEBUG
+    org:
+      springframework:
+        security: INFO

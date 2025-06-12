@@ -7,25 +7,24 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 
+/**
+ * Security configuration for when the "basicauth" profile is active.
+ * This configuration does not include SAML authentication.
+ */
 @Configuration
 @EnableWebSecurity
-@Profile("!test & !basicauth")
-public class SecurityConfig {
+@Profile("basicauth")
+public class BasicAuthSecurityConfig {
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        // This is a basic configuration that can be customized based on requirements
+    public SecurityFilterChain basicAuthSecurityFilterChain(HttpSecurity http) throws Exception {
+        // Basic security configuration without SAML
         http
             .authorizeHttpRequests(authorize -> authorize
                 .requestMatchers("/").permitAll()
                 .anyRequest().authenticated()
             )
-            .saml2Login(saml2 -> saml2
-                .loginPage("/login")
-            )
-            .saml2Logout(saml2 -> saml2
-                .logoutUrl("/logout")
-            );
+            .httpBasic(httpBasic -> {}); // Use HTTP Basic authentication instead of SAML
 
         return http.build();
     }

@@ -78,6 +78,8 @@ You'll also need to add your Identity Provider's certificate to the `src/main/re
 - `/` - Public home page
 - `/secured` - Protected page that requires authentication
 - `/login` - Login page
+- `/api/auth/token` (POST) - Endpoint to authenticate user and generate JWT token
+- `/api/auth/secured` (GET) - Test endpoint that requires JWT authentication
 
 ## License
 

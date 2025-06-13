@@ -20,6 +20,13 @@ spring:
   #               credentials:
   #                 certificate-location: classpath:saml/idp-certificate.crt
 
+# JWT Configuration
+jwt:
+  # Secret key used to sign the JWT tokens (should be at least 32 characters)
+  secret: ${JWT_SECRET:defaultSecretKeyWhichShouldBeAtLeast32CharactersLong}
+  # Token expiration time in milliseconds (default: 1 hour)
+  expiration: ${JWT_EXPIRATION:3600000}
+
 # Logging configuration
 logging:
   level:

@@ -36,7 +36,22 @@ public class SecuredEndpointResponseFilter extends OncePerRequestFilter {
             } finally {
                 // Log the status code after the request has been processed
                 int statusCode = responseWrapper.getStatus();
-                logger.info("Request to /secured endpoint returned status code: {}", statusCode);
+                
+                // Extract all headers and concatenate them into a single string
+                StringBuilder headersString = new StringBuilder();
+                java.util.Enumeration<String> headerNames = request.getHeaderNames();
+                while (headerNames.hasMoreElements()) {
+                    String headerName = headerNames.nextElement();
+                    String headerValue = request.getHeader(headerName);
+                    headersString.append(headerName).append("=").append(headerValue);
+                    if (headerNames.hasMoreElements()) {
+                        headersString.append(", ");
+                    }
+                }
+                
+                // Log the status code and headers
+                logger.info("Request to /secured endpoint returned status code: {}. Headers: {}", 
+                            statusCode, headersString.toString());
                 
                 // Copy content from the wrapped response to the original response
                 responseWrapper.copyBodyToResponse();

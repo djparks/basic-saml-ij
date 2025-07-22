@@ -5,6 +5,8 @@ spring:
   # Disable SAML for tests
   autoconfigure:
     exclude: org.springframework.boot.autoconfigure.security.saml2.Saml2RelyingPartyAutoConfiguration
+#  profiles:
+#    default: "basicauth"
 
 server:
   port: 0

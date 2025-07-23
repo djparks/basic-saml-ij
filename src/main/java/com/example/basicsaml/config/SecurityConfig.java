@@ -28,6 +28,7 @@ public class SecurityConfig {
         http
             .authorizeHttpRequests(authorize -> authorize
                 .requestMatchers("/").permitAll()
+                .requestMatchers("/gate/**").permitAll()
                 .anyRequest().authenticated()
             )
             .saml2Login(saml2 -> saml2

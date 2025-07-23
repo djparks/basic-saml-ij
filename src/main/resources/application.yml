@@ -6,19 +6,14 @@ server:
 spring:
   application:
     name: basic-saml
-  # SAML configuration
-  # These are placeholder values that should be replaced with actual configuration
-  # security:
-  #   saml2:
-  #     relyingparty:
-  #       registration:
-  #         idpname:
-  #           identityprovider:
-  #             entity-id: https://idp.example.com/idp
-  #             sso-url: https://idp.example.com/idp/profile/SAML2/Redirect/SSO
-  #             verification:
-  #               credentials:
-  #                 certificate-location: classpath:saml/idp-certificate.crt
+  cloud:
+    gateway:
+      mvc:
+        routes:
+          - id: google-route
+            uri: https://www.google.com
+            predicates:
+              - Path=/gate/**
 
 # JWT Configuration
 jwt:

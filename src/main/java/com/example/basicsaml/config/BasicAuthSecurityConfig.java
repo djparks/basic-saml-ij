@@ -24,6 +24,7 @@ public class BasicAuthSecurityConfig {
         http
             .authorizeHttpRequests(authorize -> authorize
                 .requestMatchers("/").permitAll()
+                .requestMatchers("/gate/**").permitAll()
                 .anyRequest().authenticated()
             )
             .httpBasic(httpBasic -> {}); // Use HTTP Basic authentication instead of SAML

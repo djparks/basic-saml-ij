@@ -30,3 +30,6 @@ logging:
       springframework:
         security: DEBUG
         security.saml2: DEBUG
+        cloud.gateway: DEBUG
+        web.reactive.function.client: DEBUG
+        http.server.reactive: DEBUG

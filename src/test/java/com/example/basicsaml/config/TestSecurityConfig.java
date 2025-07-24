@@ -17,6 +17,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @TestConfiguration
 @EnableWebSecurity
@@ -50,6 +53,7 @@ public class TestSecurityConfig {
         // Security configuration for tests that enforces JWT authentication for secured endpoints
         http
             .csrf(csrf -> csrf.disable())
+            .cors(cors -> cors.configurationSource(corsConfigurationSource())) // Configure CORS
             .authorizeHttpRequests(authorize -> authorize
                 .requestMatchers("/api/auth/token").permitAll()
                 .requestMatchers("/api/auth/secured").authenticated()
@@ -58,6 +62,19 @@ public class TestSecurityConfig {
             .addFilterBefore(new JwtAuthenticationFilter(jwtUtil()), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
+    }
+    
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(java.util.Collections.singletonList("*")); // Allow all origins
+        configuration.setAllowedMethods(java.util.Arrays.asList("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS")); // Allow all methods
+        configuration.setAllowedHeaders(java.util.Collections.singletonList("*")); // Allow all headers
+        configuration.setAllowCredentials(false); // Don't allow credentials when using "*" for origins
+        
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration); // Apply to all paths
+        return source;
     }
 
     @Bean

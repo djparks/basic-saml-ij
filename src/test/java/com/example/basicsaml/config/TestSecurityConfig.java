@@ -67,10 +67,10 @@ public class TestSecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(java.util.Collections.singletonList("*")); // Allow all origins
+        configuration.setAllowedOrigins(java.util.Collections.singletonList("https://google.com")); // Allow only https://google.com
         configuration.setAllowedMethods(java.util.Arrays.asList("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS")); // Allow all methods
         configuration.setAllowedHeaders(java.util.Collections.singletonList("*")); // Allow all headers
-        configuration.setAllowCredentials(false); // Don't allow credentials when using "*" for origins
+        configuration.setAllowCredentials(true); // Allow credentials since we're using a specific origin
         
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration); // Apply to all paths

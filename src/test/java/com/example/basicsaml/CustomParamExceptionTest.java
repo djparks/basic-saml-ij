@@ -1,6 +1,8 @@
 package com.example.basicsaml;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
+import org.skyscreamer.jsonassert.JSONAssert;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.web.ErrorResponseException;
@@ -174,5 +176,50 @@ public class CustomParamExceptionTest {
         assertTrue(exception instanceof java.io.Serializable);
         
         System.out.println("[DEBUG_LOG] Serialization support test passed!");
+    }
+    
+    @Test
+    public void testJsonRepresentation() throws Exception {
+        // Create a parameter map with known values
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("key1", "value1");
+        paramMap.put("key2", 123);
+        paramMap.put("key3", true);
+        
+        // Create exception with the map
+        CustomParamException exception = new CustomParamException("JSON test error", paramMap);
+        
+        // Get the ProblemDetail from the exception
+        ProblemDetail problemDetail = exception.getBody();
+        
+        // Create an ObjectMapper for JSON serialization
+        ObjectMapper objectMapper = new ObjectMapper();
+        
+        // Convert the ProblemDetail to JSON
+        String actualJson = objectMapper.writeValueAsString(problemDetail);
+        
+        // Define the expected JSON structure using a text block
+        String expectedJson = """
+        {
+            "type":"https://example.com/parameterized-error",
+            "title":"Parameterized Exception",
+            "status":400,
+            "detail":null,
+            "instance":null,
+            "properties":{
+                "message":"JSON test error",
+                "param":{
+                    "key1":"value1",
+                    "key2":123,
+                    "key3":true
+                }
+            }
+        }
+        """;
+        
+        // Use JSONAssert for comparison
+        JSONAssert.assertEquals(expectedJson, actualJson, true);
+        
+        System.out.println("[DEBUG_LOG] JSON representation test passed!");
     }
 }

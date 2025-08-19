@@ -33,3 +33,23 @@ logging:
         cloud.gateway: DEBUG
         web.reactive.function.client: DEBUG
         http.server.reactive: DEBUG
+
+# Example Spring Boot 3.1+ SSL bundle configuration for a JKS keystore
+# This is an example only; ensure the file exists at the specified location and passwords are correct
+# The bundle is named 'my-ssl' and can be referenced by code via SslBundles
+  ssl:
+    bundle:
+      jks:
+        my-ssl:
+          # Keystore containing client certificate/private key
+          keystore:
+            location: classpath:ssl/MySsl.jks
+            password: changeit
+            type: JKS
+            # alias is optional; specify if your keystore contains multiple entries
+            # alias: mykey
+          # Truststore with trusted CAs (can be the same JKS for simple setups)
+          truststore:
+            location: classpath:ssl/MySsl.jks
+            password: changeit
+            type: JKS

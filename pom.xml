@@ -65,6 +65,11 @@
             <artifactId>problem-spring-web-starter</artifactId>
             <version>0.29.1</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.apache.httpcomponents.client5</groupId>
+            <artifactId>httpclient5</artifactId>
+        </dependency>
         
         <!-- JWT Dependencies -->
         <dependency>

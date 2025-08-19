@@ -2,7 +2,7 @@
 server:
   port: 8080
 
-# Spring application name
+# Spring application name and related configuration
 spring:
   application:
     name: basic-saml
@@ -34,13 +34,21 @@ logging:
         web.reactive.function.client: DEBUG
         http.server.reactive: DEBUG
 
-# Example Spring Boot 3.1+ SSL bundle configuration for a JKS keystore
-# This is an example only; ensure the file exists at the specified location and passwords are correct
-# The bundle is named 'my-ssl' and can be referenced by code via SslBundles
+  # SSL Bundles (Spring Boot 3.1+)
+  #
+  # An SSL bundle encapsulates keystore (client cert/private key) and truststore (trusted CAs)
+  # and can be referenced in code via Spring's SslBundles API. Our ClientSSLContext retrieves
+  # a bundle named by the property `client.ssl.bundle-name` (defaults to `my-ssl`).
+  #
+  # How to use:
+  # 1) Put your JKS files under src/main/resources/ssl (or adjust the locations below).
+  # 2) Update passwords/types to match your files.
+  # 3) Optionally change the bundle name (e.g., `my-ssl`) and set `client.ssl.bundle-name` accordingly.
+  # 4) ClientService will obtain an SSLContext from ClientSSLContext and apply it to HttpsURLConnection.
   ssl:
     bundle:
       jks:
-        my-ssl:
+        my-ssl: # This is the default bundle name used when client.ssl.bundle-name is not set
           # Keystore containing client certificate/private key
           keystore:
             location: classpath:ssl/MySsl.jks
@@ -53,3 +61,8 @@ logging:
             location: classpath:ssl/MySsl.jks
             password: changeit
             type: JKS
+
+# Optional: override the bundle name here or via environment variable
+# client:
+#   ssl:
+#     bundle-name: my-ssl
